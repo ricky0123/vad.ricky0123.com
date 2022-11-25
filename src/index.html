@@ -7,40 +7,68 @@
     <title>Voice Activity Detector for the Browser</title>
     <script defer src="main.js"></script>
   </head>
-  <body class="bg-black text-white">
+  <style>
+    li {
+      max-height: 0;
+      opacity: 0;
+      animation: grow 1s ease-in-out forwards;
+    }
+    @keyframes grow {
+      to {
+        max-height: 100px;
+        opacity: 1;
+      }
+    }
+  </style>
+  <body class="bg-black text-white min-h-screen">
     <div class="max-w-5xl m-auto">
       <div class="mt-10 flex items-center justify-end">
-        <a class="p-1 mr-8 hover:outline-2 hover:outline-blue-400 hover:outline" href="https://github.com/ricky0123/vad">
+        <a
+          class="p-1 mr-8 hover:outline-2 hover:outline-rose-600 hover:outline"
+          href="https://github.com/ricky0123/vad"
+        >
           <img src="static/github32px.png" style="width: 22px" alt="Github" />
         </a>
       </div>
-      <div class="text-blue-400 text-4xl rounded mt-5">
+      <div class="text-sky-400 text-4xl rounded mt-5">
         An accurate, user-friendly
-        <span class="text-red-500 underline">voice activity detector</span> for
+        <span class="text-rose-600 underline">voice activity detector</span> for
         the browser
       </div>
       <div class="text-white mt-5 text-lg max-w-xl">
         Prompt your user for microphone permissions and run callbacks on
         segments of audio with user speech in a few lines of code.
       </div>
-      <div class="mt-5 text-red-500">
+      <div class="mt-5 mb-5 text-rose-600">
         Get started with the
         <span
           ><a
-            class="underline text-white hover:text-red-500"
+            class="underline text-white hover:text-rose-600"
             href="https://github.com/ricky0123/vad#installation"
           >
             docs on Github
           </a></span
         >
       </div>
-      <div class="flex justify-center items-center mt-5">
-        <button
-          type="button"
-          class="bg-gradient-to-r text-black hover:text-white from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded"
-        >
-          <div class="p-2 text-xl">Start the demo!</div>
-        </button>
+      <div x-data="{ started: false }">
+        <div x-show="!started" class="flex justify-center items-center">
+          <button
+            type="button"
+            @click="started = true; window.startDemo()"
+            class="border-rose-600 text-rose-600 hover:border-sky-400 hover:text-sky-400 border-2 rounded"
+          >
+            <div class="p-2 text-xl">Start the demo!</div>
+          </button>
+        </div>
+        <div class="overflow-hidden" x-show="started">
+          <ol id="playlist" class="max-h-28 overflow-y-auto" reversed>
+            <template id="playlist_entry_template">
+              <li class="first-of-type:bg-slate-900 hover:bg-slate-700">
+                <audio controls></audio>
+              </li>
+            </template>
+          </ol>
+        </div>
       </div>
     </div>
   </body>

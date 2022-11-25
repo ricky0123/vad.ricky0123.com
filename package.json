@@ -24,6 +24,7 @@
     "babel-loader": "^9.1.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.2",
+    "http-server": "^14.1.1",
     "postcss": "^8.4.19",
     "postcss-loader": "^7.0.1",
     "prettier": "^2.8.0",
@@ -35,7 +36,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "@ricky0123/vad": "^0.2.2",
+    "@ricky0123/vad": "^0.2.3",
     "alpinejs": "^3.10.5",
     "onnxruntime-web": "^1.13.1"
   }
