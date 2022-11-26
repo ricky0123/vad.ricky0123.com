@@ -26,6 +26,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.2",
     "http-server": "^14.1.1",
+    "mini-css-extract-plugin": "^2.7.0",
     "postcss": "^8.4.19",
     "postcss-loader": "^7.0.1",
     "prettier": "^2.8.0",
@@ -39,6 +40,7 @@
   "dependencies": {
     "@ricky0123/vad": "^0.2.3",
     "alpinejs": "^3.10.5",
+    "highlight.js": "^11.7.0",
     "onnxruntime-web": "^1.13.1"
   }
 }

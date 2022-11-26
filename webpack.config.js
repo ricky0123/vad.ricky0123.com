@@ -1,4 +1,5 @@
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = {
   mode: "development",
@@ -7,7 +8,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader", "postcss-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
       },
       {
         test: /\.(js|ts)$/,
@@ -25,8 +26,11 @@ module.exports = {
     ],
   },
   plugins: [
+    new MiniCssExtractPlugin(),
     new CopyPlugin({
       patterns: [
+        { from: "./lib/highlight.js/highlight.min.js", to: "[name][ext]" },
+        { from: "./lib/highlight.js/styles/base16/3024.min.css", to: "highlight.css" },
         {
           from: "src/index.html",
           to: "[name][ext]",
@@ -48,4 +52,4 @@ module.exports = {
   output: {
     clean: true,
   },
-};
+}
