@@ -69,9 +69,10 @@
         >
       </div>
       <div
-        x-data="{ state: 'before' }"
+        x-data="{ state: 'before', listening: false }"
         class="mt-5"
         x-on:demo-state-change.window="state = $event.detail.demoState"
+        x-on:vad-listening-change.window="listening = $event.detail.listening"
       >
         <div
           x-show="state === 'before'"
@@ -89,10 +90,20 @@
         <div x-show="state === 'errored'">Failed to load demo</div>
         <div x-show="state === 'during'">
           <div class="flex justify-between">
-            <div>VAD is <span class="text-sky-400">running</span></div>
-            <div id="indicator" class="voice rounded-full w-6 h-6"></div>
-            <button class="text-rose-600 border-2 border-rose-600">
-              <div class="px-1">Pause VAD</div>
+            <div>
+              VAD is <span x-show="listening" class="text-sky-400">running</span
+              ><span x-show="! listening" class="text-rose-600">paused</span>
+            </div>
+            <div
+              id="indicator"
+              x-show="listening"
+              class="voice rounded-full w-6 h-6"
+            ></div>
+            <button
+              @click="window.toggleVAD()"
+              class="text-rose-600 border-2 border-rose-600"
+            >
+              <div class="px-1">Pause/resume VAD</div>
             </button>
           </div>
           <ol id="playlist" class="mt-5 max-h-28 overflow-y-auto" reversed>

@@ -19,6 +19,13 @@ const updateDemoState = (newState: DemoState) => {
   window.dispatchEvent(ev)
 }
 
+const updateListeningState = (newState: boolean) => {
+  const ev = new CustomEvent("vad-listening-change", {
+    detail: { listening: newState },
+  })
+  window.dispatchEvent(ev)
+}
+
 let myvad: vad.MicVAD
 
 function updateIndicatorColor(
@@ -96,8 +103,10 @@ async function startDemo() {
     _window.toggleVAD = () => {
       if (myvad.listening === false) {
         myvad.start()
+        updateListeningState(true)
       } else {
         myvad.pause()
+        updateListeningState(false)
       }
     }
     _window.toggleVAD()
