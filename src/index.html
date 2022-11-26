@@ -13,10 +13,28 @@
       opacity: 0;
       animation: grow 1s ease-in-out forwards;
     }
+
     @keyframes grow {
       to {
         max-height: 100px;
         opacity: 1;
+      }
+    }
+
+    #indicator {
+      --color: blue;
+      background-color: var(--color);
+      --speed: 750ms;
+      animation: ping var(--speed) cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes ping {
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2);
+        opacity: 0.25;
       }
     }
   </style>
@@ -24,13 +42,13 @@
     <div class="max-w-5xl m-auto">
       <div class="mt-10 flex items-center justify-end">
         <a
-          class="p-1 mr-8 hover:outline-2 hover:outline-rose-600 hover:outline"
+          class="p-1 rounded-full mr-8 hover:outline-2 hover:outline-rose-600 hover:outline"
           href="https://github.com/ricky0123/vad"
         >
           <img src="static/github32px.png" style="width: 22px" alt="Github" />
         </a>
       </div>
-      <div class="text-sky-400 text-4xl rounded mt-5">
+      <div class="text-sky-400 text-4xl mt-5">
         An accurate, user-friendly
         <span class="text-rose-600 underline">voice activity detector</span> for
         the browser
@@ -39,7 +57,7 @@
         Prompt your user for microphone permissions and run callbacks on
         segments of audio with user speech in a few lines of code.
       </div>
-      <div class="mt-5 mb-5 text-rose-600">
+      <div class="mt-5 text-rose-600">
         Get started with the
         <span
           ><a
@@ -50,18 +68,34 @@
           </a></span
         >
       </div>
-      <div x-data="{ started: false }">
-        <div x-show="!started" class="flex justify-center items-center">
+      <div
+        x-data="{ state: 'before' }"
+        class="mt-5"
+        x-on:demo-state-change.window="state = $event.detail.demoState"
+      >
+        <div
+          x-show="state === 'before'"
+          class="flex justify-center items-center"
+        >
           <button
             type="button"
-            @click="started = true; window.startDemo()"
+            @click="window.startDemo()"
             class="border-rose-600 text-rose-600 hover:border-sky-400 hover:text-sky-400 border-2 rounded"
           >
             <div class="p-2 text-xl">Start the demo!</div>
           </button>
         </div>
-        <div class="overflow-hidden" x-show="started">
-          <ol id="playlist" class="max-h-28 overflow-y-auto" reversed>
+        <div x-show="state === 'loading'">Loading demo</div>
+        <div x-show="state === 'errored'">Failed to load demo</div>
+        <div x-show="state === 'during'">
+          <div class="flex justify-between">
+            <div>VAD is <span class="text-sky-400">running</span></div>
+            <div id="indicator" class="voice rounded-full w-6 h-6"></div>
+            <button class="text-rose-600 border-2 border-rose-600">
+              <div class="px-1">Pause VAD</div>
+            </button>
+          </div>
+          <ol id="playlist" class="mt-5 max-h-28 overflow-y-auto" reversed>
             <template id="playlist_entry_template">
               <li class="first-of-type:bg-slate-900 hover:bg-slate-700">
                 <audio controls></audio>
