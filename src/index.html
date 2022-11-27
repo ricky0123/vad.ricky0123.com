@@ -25,8 +25,9 @@
     }
 
     #indicator {
-      --color: blue;
-      background-color: var(--color);
+      --sky-400: rgb(56 189 248);
+      --rose-600: rgb(225 29 72);
+      background-color: var(--sky-400);
       --speed: 750ms;
       animation: ping var(--speed) cubic-bezier(0, 0, 0.2, 1) infinite;
     }
@@ -89,8 +90,12 @@
             <div class="p-2 text-xl">Start the demo!</div>
           </button>
         </div>
-        <div x-show="state === 'loading'">Loading demo</div>
-        <div x-show="state === 'errored'">Failed to load demo</div>
+        <div x-show="state === 'loading'" class="text-sky-400 animate-pulse">
+          Loading demo...
+        </div>
+        <div x-show="state === 'errored'" class="text-rose-600">
+          Failed to load demo
+        </div>
         <div x-show="state === 'during'">
           <div class="flex justify-between">
             <div>
@@ -130,7 +135,7 @@
   async function main() {
     const myvad = await vad.MicVAD.new({
       onSpeechEnd: (audio) => {
-        // do something with audio...
+        // do something with `audio` (Float32Array of audio samples at sample rate 16000)...
       }
     })
     myvad.start()

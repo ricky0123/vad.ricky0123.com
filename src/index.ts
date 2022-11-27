@@ -33,11 +33,13 @@ function updateIndicatorColor(
   positiveSpeechThreshold: number,
   element: HTMLElement
 ) {
-  const current = element.style.getPropertyValue("--color")
-  if (isSpeech > positiveSpeechThreshold && current != "red") {
-    element.style.setProperty("--color", "red")
-  } else if (isSpeech < positiveSpeechThreshold && current != "blue") {
-    element.style.setProperty("--color", "blue")
+  const current = getComputedStyle(element).getPropertyValue("background-color")
+  const activeColor = getComputedStyle(element).getPropertyValue("--rose-600")
+  const inactiveColor = getComputedStyle(element).getPropertyValue("--sky-400")
+  if (isSpeech > positiveSpeechThreshold && current != activeColor) {
+    element.style.setProperty("background-color", activeColor)
+  } else if (isSpeech < positiveSpeechThreshold && current != inactiveColor) {
+    element.style.setProperty("background-color", inactiveColor)
   }
 }
 
@@ -112,11 +114,11 @@ async function startDemo() {
     _window.toggleVAD()
     updateDemoState(DemoState.during)
   } catch (e) {
+    updateDemoState(DemoState.errored)
     console.error("Failed:", e)
     if (myvad !== undefined) {
       myvad.pause()
     }
-    if (myvad !== undefined) updateDemoState(DemoState.errored)
   }
 }
 _window.startDemo = startDemo
